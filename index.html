@@ -1,0 +1,1501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Who Killed Skeleton? - Halloween Murder Mystery</title>
+
+  <!-- Google Fonts & Font Awesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    :root {
+      --bg-dark: #0d0b14;
+      --card-bg: #181524;
+      --card-border: #2a243d;
+      --accent-orange: #ff7700;
+      --accent-purple: #9d4edd;
+      --accent-green: #00e676;
+      --accent-red: #ff3366;
+      --text-main: #f0ecf9;
+      --text-muted: #a097b8;
+      --font-display: 'Creepster', cursive;
+      --font-heading: 'Space Grotesk', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 15% 20%, rgba(157, 78, 221, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 85% 80%, rgba(255, 119, 0, 0.12) 0%, transparent 40%);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Header Navigation */
+    header {
+      background: rgba(13, 11, 20, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--card-border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 12px 24px;
+    }
+
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      font-size: 28px;
+      color: var(--accent-orange);
+      filter: drop-shadow(0 0 8px rgba(255, 119, 0, 0.5));
+    }
+
+    .brand-title {
+      font-family: var(--font-display);
+      font-size: 28px;
+      letter-spacing: 1px;
+      color: #ffffff;
+      text-shadow: 0 0 10px rgba(255, 119, 0, 0.3);
+    }
+
+    .brand-subtitle {
+      font-size: 12px;
+      color: var(--accent-purple);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn {
+      background: var(--card-bg);
+      color: var(--text-main);
+      border: 1px solid var(--card-border);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .btn:hover {
+      border-color: var(--accent-purple);
+      background: #231f33;
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-orange), #e65c00);
+      color: #fff;
+      border: none;
+      box-shadow: 0 4px 14px rgba(255, 119, 0, 0.3);
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #ff881a, var(--accent-orange));
+      box-shadow: 0 6px 18px rgba(255, 119, 0, 0.5);
+    }
+
+    /* Progress Tracker */
+    .progress-bar-container {
+      max-width: 1200px;
+      margin: 16px auto 0 auto;
+      padding: 0 24px;
+      width: 100%;
+    }
+
+    .progress-track {
+      height: 6px;
+      background: var(--card-bg);
+      border-radius: 3px;
+      overflow: hidden;
+      border: 1px solid var(--card-border);
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-purple), var(--accent-orange));
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    .progress-steps {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* Main Content Layout */
+    main {
+      max-width: 1200px;
+      margin: 24px auto;
+      padding: 0 24px;
+      flex: 1;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 24px;
+    }
+
+    @media (max-width: 992px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Content Area & Cards */
+    .investigation-area {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 24px;
+      position: relative;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding-bottom: 12px;
+    }
+
+    .card-title {
+      font-family: var(--font-heading);
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .badge {
+      background: rgba(157, 78, 221, 0.15);
+      color: var(--accent-purple);
+      border: 1px solid rgba(157, 78, 221, 0.3);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    /* Clue List */
+    .clue-item {
+      background: rgba(13, 11, 20, 0.6);
+      border: 1px solid var(--card-border);
+      border-left: 4px solid var(--accent-orange);
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 12px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      transition: all 0.2s ease;
+    }
+
+    .clue-item:hover {
+      background: rgba(24, 21, 36, 0.8);
+      border-color: rgba(255, 119, 0, 0.4);
+    }
+
+    .clue-num {
+      background: var(--accent-orange);
+      color: #000;
+      font-weight: 800;
+      font-size: 13px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .clue-text {
+      font-size: 15px;
+      line-height: 1.5;
+      color: #e2dcee;
+    }
+
+    /* Interactive Stop & Think Section */
+    .think-box {
+      background: linear-gradient(135deg, rgba(157, 78, 221, 0.12), rgba(255, 119, 0, 0.08));
+      border: 1px dashed var(--accent-purple);
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 20px;
+    }
+
+    .think-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--accent-orange);
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    .think-question {
+      font-weight: 600;
+      font-size: 15px;
+      margin-bottom: 14px;
+      color: #ffffff;
+    }
+
+    .option-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .option-btn {
+      background: rgba(13, 11, 20, 0.8);
+      border: 1px solid var(--card-border);
+      padding: 12px 16px;
+      border-radius: 8px;
+      color: var(--text-main);
+      text-align: left;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .option-btn:hover {
+      border-color: var(--accent-purple);
+      background: rgba(157, 78, 221, 0.1);
+    }
+
+    .option-btn.selected {
+      border-color: var(--accent-orange);
+      background: rgba(255, 119, 0, 0.15);
+      font-weight: 600;
+    }
+
+    .option-btn.correct {
+      border-color: var(--accent-green);
+      background: rgba(0, 230, 118, 0.15);
+      color: #00ff88;
+    }
+
+    .option-btn.wrong {
+      border-color: var(--accent-red);
+      background: rgba(255, 51, 102, 0.15);
+      color: #ff6688;
+    }
+
+    .feedback-msg {
+      margin-top: 10px;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      line-height: 1.4;
+      display: none;
+    }
+
+    .feedback-msg.show {
+      display: block;
+    }
+
+    .feedback-msg.success {
+      background: rgba(0, 230, 118, 0.1);
+      border: 1px solid var(--accent-green);
+      color: #80ffe1;
+    }
+
+    .feedback-msg.error {
+      background: rgba(255, 51, 102, 0.1);
+      border: 1px solid var(--accent-red);
+      color: #ffb3c1;
+    }
+
+    /* WhatsApp Simulator Component */
+    .whatsapp-card {
+      background: #0b141a;
+      border: 1px solid #222d34;
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 16px 0;
+    }
+
+    .whatsapp-header {
+      background: #202c33;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid #2a3942;
+    }
+
+    .avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--accent-purple);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .chat-info h4 {
+      font-size: 15px;
+      color: #e9edef;
+    }
+
+    .chat-info p {
+      font-size: 12px;
+      color: #8696a0;
+    }
+
+    .chat-body {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background-image: radial-gradient(#1f2c34 1px, transparent 0);
+      background-size: 12px 12px;
+      min-height: 180px;
+    }
+
+    .chat-bubble {
+      max-width: 80%;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      position: relative;
+    }
+
+    .chat-bubble.sent {
+      align-self: flex-end;
+      background: #005c4b;
+      color: #e9edef;
+      border-top-right-radius: 0;
+    }
+
+    .chat-bubble.received {
+      align-self: flex-start;
+      background: #202c33;
+      color: #e9edef;
+      border-top-left-radius: 0;
+    }
+
+    .chat-meta {
+      font-size: 10px;
+      color: #8696a0;
+      text-align: right;
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 4px;
+    }
+
+    /* Sidebar / Detective Notebook */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .notebook-card {
+      background: #14111f;
+      border: 1px solid var(--accent-purple);
+      box-shadow: 0 0 15px rgba(157, 78, 221, 0.15);
+    }
+
+    .suspect-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .suspect-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s ease;
+    }
+
+    .suspect-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .suspect-icon {
+      font-size: 22px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .suspect-name {
+      font-weight: 600;
+      font-size: 14px;
+      color: #fff;
+    }
+
+    .suspect-role {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .suspect-tag {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      border: 1px solid transparent;
+      user-select: none;
+    }
+
+    .suspect-tag.unknown {
+      background: rgba(255,255,255,0.08);
+      color: var(--text-muted);
+    }
+
+    .suspect-tag.suspect {
+      background: rgba(255, 119, 0, 0.2);
+      color: var(--accent-orange);
+      border-color: rgba(255, 119, 0, 0.4);
+    }
+
+    .suspect-tag.eliminated {
+      background: rgba(255, 51, 102, 0.2);
+      color: var(--accent-red);
+      border-color: rgba(255, 51, 102, 0.4);
+      text-decoration: line-through;
+    }
+
+    /* Final Accusation Form */
+    .accusation-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-label {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--accent-orange);
+    }
+
+    .form-select, .form-input, .form-textarea {
+      background: rgba(13, 11, 20, 0.9);
+      border: 1px solid var(--card-border);
+      color: #fff;
+      padding: 12px;
+      border-radius: 8px;
+      font-family: var(--font-body);
+      font-size: 14px;
+    }
+
+    .form-select:focus, .form-input:focus, .form-textarea:focus {
+      outline: none;
+      border-color: var(--accent-orange);
+      box-shadow: 0 0 8px rgba(255, 119, 0, 0.3);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    /* Results Screen */
+    .result-banner {
+      text-align: center;
+      padding: 30px;
+      border-radius: 16px;
+      margin-bottom: 24px;
+    }
+
+    .result-banner.success {
+      background: linear-gradient(135deg, rgba(0, 230, 118, 0.2), rgba(157, 78, 221, 0.2));
+      border: 2px solid var(--accent-green);
+    }
+
+    .result-banner.partial {
+      background: linear-gradient(135deg, rgba(255, 119, 0, 0.2), rgba(157, 78, 221, 0.2));
+      border: 2px solid var(--accent-orange);
+    }
+
+    .result-title {
+      font-family: var(--font-display);
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+
+    /* Print Worksheet Summary */
+    .worksheet-preview {
+      background: #fff;
+      color: #111;
+      padding: 24px;
+      border-radius: 12px;
+      margin-top: 20px;
+      font-family: 'Times New Roman', serif;
+    }
+
+    .worksheet-preview h3 {
+      border-bottom: 2px solid #111;
+      padding-bottom: 8px;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .worksheet-line {
+      margin-bottom: 12px;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .blank-fill {
+      font-weight: bold;
+      text-decoration: underline;
+      color: #000;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--card-border);
+      padding: 20px 24px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 13px;
+      margin-top: auto;
+    }
+
+    /* Utility Animations */
+    @keyframes pulseGlow {
+      0% { box-shadow: 0 0 5px rgba(255, 119, 0, 0.4); }
+      50% { box-shadow: 0 0 20px rgba(255, 119, 0, 0.8); }
+      100% { box-shadow: 0 0 5px rgba(255, 119, 0, 0.4); }
+    }
+
+    .pulse {
+      animation: pulseGlow 2s infinite;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Navigation -->
+  <header>
+    <div class="header-container">
+      <div class="brand">
+        <i class="fa-solid fa-skull brand-icon"></i>
+        <div>
+          <div class="brand-title">WHO KILLED SKELETON?</div>
+          <div class="brand-subtitle">English Club Halloween Mystery</div>
+        </div>
+      </div>
+      <div class="nav-actions">
+        <button class="btn" id="soundBtn" onclick="toggleSound()">
+          <i class="fa-solid fa-volume-high"></i> <span id="soundLabel">Sound ON</span>
+        </button>
+        <button class="btn" onclick="resetGame()">
+          <i class="fa-solid fa-rotate-left"></i> Restart
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Progress Tracker -->
+  <div class="progress-bar-container">
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="progress-steps">
+      <span id="stepLabel">Stage 1 of 6: The Crime Scene</span>
+      <span id="clueCounter">Clues Unlocked: 0 / 17</span>
+    </div>
+  </div>
+
+  <!-- Main Investigation Workspace -->
+  <main>
+    <!-- Left Column: Investigation & Clues -->
+    <div class="investigation-area">
+
+      <!-- STAGE 0: BRIEFING & CASE FILE -->
+      <div class="card stage-card" id="stage0">
+        <div class="card-header">
+          <div class="card-title">
+            <i class="fa-solid fa-folder-open" style="color:var(--accent-orange);"></i>
+            Crime Scene Briefing
+          </div>
+          <span class="badge">Case File #1031</span>
+        </div>
+        
+        <p style="font-size:15px; line-height:1.6; margin-bottom:16px;">
+          <strong>Skeleton</strong> was found dead in the haunted house yesterday afternoon. He was writing a WhatsApp message when he was attacked.
+        </p>
+
+        <div style="background:rgba(13, 11, 20, 0.7); border:1px solid var(--card-border); border-radius:12px; padding:16px; margin-bottom:20px; display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:12px;">
+          <div>
+            <span style="color:var(--text-muted); font-size:12px; display:block;">Found Dead By</span>
+            <strong style="color:#fff;"><i class="fa-solid fa-user-ninja" style="color:var(--accent-purple);"></i> Mr Vampire</strong>
+          </div>
+          <div>
+            <span style="color:var(--text-muted); font-size:12px; display:block;">Time Found</span>
+            <strong style="color:var(--accent-orange);"><i class="fa-regular fa-clock"></i> 4:15 p.m.</strong>
+          </div>
+          <div>
+            <span style="color:var(--text-muted); font-size:12px; display:block;">Last Seen Active</span>
+            <strong style="color:var(--accent-green);"><i class="fa-brands fa-whatsapp"></i> 4:05 p.m.</strong>
+          </div>
+          <div>
+            <span style="color:var(--text-muted); font-size:12px; display:block;">Phone Condition</span>
+            <strong style="color:var(--accent-red);"><i class="fa-solid fa-mobile-retro"></i> Smashed</strong>
+          </div>
+        </div>
+
+        <div style="margin-bottom:20px;">
+          <h4 style="font-family:var(--font-heading); color:var(--accent-orange); margin-bottom:10px;">The 5 Suspects in the House:</h4>
+          <div style="display:flex; flex-wrap:wrap; gap:10px;">
+            <span class="badge" style="background:rgba(255,255,255,0.05); color:#fff;"><i class="fa-solid fa-bolt"></i> Frankenstein (Friend)</span>
+            <span class="badge" style="background:rgba(255,255,255,0.05); color:#fff;"><i class="fa-solid fa-ghost"></i> Ghost (Brother)</span>
+            <span class="badge" style="background:rgba(255,255,255,0.05); color:#fff;"><i class="fa-solid fa-hat-wizard"></i> Witch (Sister)</span>
+            <span class="badge" style="background:rgba(255,255,255,0.05); color:#fff;"><i class="fa-solid fa-user-tie"></i> Mr Vampire (Friend)</span>
+            <span class="badge" style="background:rgba(255,255,255,0.05); color:#fff;"><i class="fa-solid fa-person-dress"></i> Mrs Vampire (Friend)</span>
+          </div>
+        </div>
+
+        <div class="think-box">
+          <div class="think-header">
+            <i class="fa-solid fa-brain"></i> Let's Stop & Think: Initial Deduction
+          </div>
+          <div class="think-question">
+            Based on the crime scene briefing, what time do you think Skeleton was killed? Why?
+          </div>
+          <div class="option-list">
+            <button class="option-btn" onclick="checkAnswer(this, false, 0, 'Skeleton was found at 4:15, but was active later than 3:30!')">
+              <span>A) At 3:30 p.m. because that is when he entered the living room.</span>
+            </button>
+            <button class="option-btn" onclick="checkAnswer(this, true, 0, 'Correct! Skeleton was writing a message until 4:05 p.m. when his phone was smashed.')">
+              <span>B) At 4:05 p.m. because his phone was smashed and he went offline at 4:05 p.m.</span>
+            </button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 0, '4:15 p.m. was when Mr Vampire found him, but Skeleton was already killed.')">
+              <span>C) At 4:15 p.m. because that is when Mr Vampire found his body.</span>
+            </button>
+          </div>
+          <div class="feedback-msg" id="feedback0"></div>
+        </div>
+
+        <div style="margin-top:24px; text-align:right;">
+          <button class="btn btn-primary pulse" onclick="nextStage(1)">
+            Begin Gathering Clues <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- STAGE 1: CLUES 1-3 (Living Room & Candy) -->
+      <div class="card stage-card hidden" id="stage1">
+        <div class="card-header">
+          <div class="card-title">
+            <i class="fa-solid fa-magnifying-glass" style="color:var(--accent-orange);"></i>
+            Evidence Batch 1: The Scene & Candy Trail
+          </div>
+          <span class="badge">Clues 1 - 3</span>
+        </div>
+
+        <div class="clue-item">
+          <div class="clue-num">1</div>
+          <div class="clue-text">The window in the living room was open.</div>
+        </div>
+
+        <div class="clue-item">
+          <div class="clue-num">2</div>
+          <div class="clue-text">There was some Halloween candy on the floor near Skeleton.</div>
+        </div>
+
+        <div class="clue-item">
+          <div class="clue-num">3</div>
+          <div class="clue-text">Only <strong>Skeleton</strong> and <strong>Witch</strong> do not eat candy.</div>
+        </div>
+
+        <div class="think-box">
+          <div class="think-header">
+            <i class="fa-solid fa-brain"></i> Let's Stop & Think: Candy Deduction
+          </div>
+          <div class="think-question">
+            Candy was found near Skeleton. Skeleton and Witch do NOT eat candy. What does this tell us?
+          </div>
+          <div class="option-list">
+            <button class="option-btn" onclick="checkAnswer(this, false, 1, 'Incorrect. Skeleton and Witch don\'t eat candy at all!')">
+              <span>A) Skeleton was eating candy while writing messages.</span>
+            </button>
+            <button class="option-btn" onclick="checkAnswer(this, true, 1, 'Great logic! Since neither Skeleton nor Witch eats candy, the candy belonged to the killer!')">
+              <span>B) The candy was dropped by the killer, so Witch could not be the killer!</span>
+            </button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 1, 'If Witch doesn\'t eat candy, she wouldn\'t drop candy.')">
+              <span>C) Witch dropped the candy on purpose to trick everyone.</span>
+            </button>
+          </div>
+          <div class="feedback-msg" id="feedback1"></div>
+        </div>
+
+        <div style="margin-top:24px; display:flex; justify-content:space-between;">
+          <button class="btn" onclick="nextStage(0)"><i class="fa-solid fa-arrow-left"></i> Back</button>
+          <button class="btn btn-primary" id="btnNext1" onclick="nextStage(2)">Next Clues <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </div>
+
+      <!-- STAGE 2: CLUES 4-6 (Hair & Weapon) -->
+      <div class="card stage-card hidden" id="stage2">
+        <div class="card-header">
+          <div class="card-title">
+            <i class="fa-solid fa-fingerprint" style="color:var(--accent-orange);"></i>
+            Evidence Batch 2: Hair & The Murder Weapon
+          </div>
+          <span class="badge">Clues 4 - 6</span>
+        </div>
+
+        <div class="clue-item">
+          <div class="clue-num">4</div>
+          <div class="clue-text">A <strong>black hair</strong> was found on the open window frame.</div>
+        </div>
+
+        <div class="clue-item">
+          <div class="clue-num">5</div>
+          <div class="clue-text">A <strong>heavy pumpkin</strong> was found on the floor near the window.</div>
+        </div>
+
+        <div class="clue-item">
+          <div class="clue-num">6</div>
+          <div class="clue-text"><strong>Frankenstein</strong>, <strong>Mrs Vampire</strong>, <strong>Mr Vampire</strong>, and <strong>Ghost</strong> all have black hair.</div>
+        </div>
+
+        <div class="think-box">
+          <div class="think-header">
+            <i class="fa-solid fa-brain"></i> Let's Stop & Think: Physical Evidence
+          </div>
+          <div class="think-question">
+            Who can we rule out based on the black hair found at the window and the eating habits?
+          </div>
+          <div class="option-list">
+            <button class="option-btn" onclick="checkAnswer(this, false, 2, 'Frankenstein has black hair!')">
+              <span>A) Frankenstein</span>
+            </button>
+            <button class="option-btn" onclick="checkAnswer(this, true, 2, 'Spot on! Witch doesn\'t have black hair and doesn\'t eat candy. Witch is innocent!')">
+              <span>B) Witch (She does not have black hair!)</span>
+            </button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 2, 'Mr Vampire has black hair.')">
+              <span>C) Mr Vampire</span>
+            </button>
+          </div>
+          <div class="feedback-msg" id="feedback2"></div>
+        </div>
+
+        <div style="margin-top:24px; display:flex; justify-content:space-between;">
+          <button class="btn" onclick="nextStage(1)"><i class="fa-solid fa-arrow-left"></i> Back</button>
+          <button class="btn btn-primary" onclick="nextStage(3)">Next Clues <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </div>
+
+      <!-- STAGE 3: CLUES 7-8 (WhatsApp Secret & Mahjong Alibis) -->
+      <div class="card stage-card hidden" id="stage3">
+        <div class="card-header">
+          <div class="card-title">
+            <i class="fa-solid fa-comments" style="color:var(--accent-orange);"></i>
+            Evidence Batch 3: The Secret Message & Mahjong
+          </div>
+          <span class="badge">Clues 7 - 8</span>
+        </div>
+
+        <div class="clue-item">
+          <div class="clue-num">7</div>
+          <div class="clue-text">
+            A WhatsApp chat was retrieved from Skeleton's smashed phone:
+          </div>
+        </div>
+
+        <!-- WhatsApp Interactive Visual -->
+        <div class="whatsapp-card">
+          <div class="whatsapp-header">
+            <div class="avatar"><i class="fa-solid fa-user"></i></div>
+            <div class="chat-info">
+              <h4>Wendy ❤️</h4>
+              <p>Online at 4:05 p.m.</p>
+            </div>
+          </div>
+          <div class="chat-body">
+            <div class="chat-bubble sent">
+              How are you? I want to see you very soon.
+              <div class="chat-meta">3:36 p.m. <i class="fa-solid fa-check-double" style="color:#53bdeb;"></i></div>
+            </div>
+            <div class="chat-bubble received">
+              Meet me in the garden at 4:00 p.m. I love you.
+              <div class="chat-meta">3:46 p.m. <span style="color:#8696a0;">(unread by Skeleton until 4:00 p.m.)</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="clue-item">
+          <div class="clue-num">8</div>
+          <div class="clue-text">Everyone was playing <strong>Mahjong</strong> together until 4:00 p.m., EXCEPT Witch. Witch was cooking in the kitchen from 3:30 p.m. to 4:15 p.m.</div>
+        </div>
+
+        <div class="think-box">
+          <div class="think-header">
+            <i class="fa-solid fa-brain"></i> Let's Stop & Think: Mahjong Alibis
+          </div>
+          <div class="think-question">
+            Can anyone have killed Skeleton BEFORE 4:00 p.m.?
+          </div>
+          <div class="option-list">
+            <button class="option-btn" onclick="checkAnswer(this, true, 3, 'Correct! Everyone (except Witch in the kitchen) was in the room together playing Mahjong until 4:00 p.m. Skeleton was killed after 4:00 p.m.!')">
+              <span>A) No! Everyone was playing Mahjong together until 4:00 p.m., so no one could kill him before 4:00 p.m.</span>
+            </button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 3, 'They were playing Mahjong together, so they have alibis until 4:00 p.m.')">
+              <span>B) Yes, Frankenstein could have left secretly.</span>
+            </button>
+          </div>
+          <div class="feedback-msg" id="feedback3"></div>
+        </div>
+
+        <div style="margin-top:24px; display:flex; justify-content:space-between;">
+          <button class="btn" onclick="nextStage(2)"><i class="fa-solid fa-arrow-left"></i> Back</button>
+          <button class="btn btn-primary" onclick="nextStage(4)">Next Clues <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </div>
+
+      <!-- STAGE 4: CLUES 9-12 (Phones, Names & Motive) -->
+      <div class="card stage-card hidden" id="stage4">
+        <div class="card-header">
+          <div class="card-title">
+            <i class="fa-solid fa-user-secret" style="color:var(--accent-orange);"></i>
+            Evidence Batch 4: The Discovery & Motive
+          </div>
+          <span class="badge">Clues 9 - 12</span>
+        </div>
+
+        <div class="clue-item">
+          <div class="clue-num">9</div>
+          <div class="clue-text">At <strong>3:50 p.m.</strong>, Mrs Vampire gave her mobile phone to Mr Vampire to look after.</div>
+        </div>
+
+        <div class="clue-item">
+          <div class="clue-num">10</div>
+          <div class="clue-text">At <strong>3:55 p.m.</strong>, Mr Vampire unlocked and looked at Mrs Vampire’s WhatsApp messages!</div>
+        </div>
+
+        <div class="clue-item">
+          <div class="clue-num">11</div>
+          <div class="clue-text">At <strong>4:00 p.m.</strong>, Skeleton said he needed to check his phone. He left the Mahjong table and went into the living room.</div>
+        </div>
+
+        <div class="clue-item">
+          <div class="clue-num">12</div>
+          <div class="clue-text"><strong>Mrs Vampire’s real name is Wendy!</strong></div>
+        </div>
+
+        <div class="think-box">
+          <div class="think-header">
+            <i class="fa-solid fa-brain"></i> Let's Stop & Think: The Shocking Motive!
+          </div>
+          <div class="think-question">
+            What did Mr Vampire see when he checked Mrs Vampire's phone at 3:55 p.m.? How did he feel?
+          </div>
+          <div class="option-list">
+            <button class="option-btn" onclick="checkAnswer(this, false, 4, 'Look closely at who sent the message in Clue 7!')">
+              <span>A) He saw that Skeleton was playing games.</span>
+            </button>
+            <button class="option-btn" onclick="checkAnswer(this, true, 4, 'Bingo! Mrs Vampire is Wendy! Mr Vampire realized his wife Wendy was secretly in love with Skeleton! He was extremely jealous and angry!')">
+              <span>B) He saw secret love messages between his wife Wendy (Mrs Vampire) and Skeleton! He felt furious and jealous!</span>
+            </button>
+          </div>
+          <div class="feedback-msg" id="feedback4"></div>
+        </div>
+
+        <div style="margin-top:24px; display:flex; justify-content:space-between;">
+          <button class="btn" onclick="nextStage(3)"><i class="fa-solid fa-arrow-left"></i> Back</button>
+          <button class="btn btn-primary" onclick="nextStage(5)">Next Clues <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </div>
+
+      <!-- STAGE 5: CLUES 13-17 (Timeline & The Final Movement) -->
+      <div class="card stage-card hidden" id="stage5">
+        <div class="card-header">
+          <div class="card-title">
+            <i class="fa-solid fa-timeline" style="color:var(--accent-orange);"></i>
+            Evidence Batch 5: Movements Between 4:00 - 4:10 p.m.
+          </div>
+          <span class="badge">Clues 13 - 17</span>
+        </div>
+
+        <div class="clue-item">
+          <div class="clue-num">13</div>
+          <div class="clue-text">At <strong>4:00 p.m.</strong>, Mrs Vampire went outside. She claimed she wanted to look at the moon (She was actually going to meet Skeleton in the garden!).</div>
+        </div>
+
+        <div class="clue-item">
+          <div class="clue-num">14</div>
+          <div class="clue-text">Witch (in the kitchen) heard someone walking in the hall just after <strong>4:00 p.m.</strong> She heard the living room door open.</div>
+        </div>
+
+        <div class="clue-item">
+          <div class="clue-num">15</div>
+          <div class="clue-text">At <strong>4:05 p.m.</strong>, Witch heard the front door open. It was <strong>Mrs Vampire</strong> coming inside from the garden.</div>
+        </div>
+
+        <div class="clue-item">
+          <div class="clue-num">16</div>
+          <div class="clue-text"><strong>Frankenstein</strong> and <strong>Ghost</strong> started watching a TV programme together right when Mahjong finished (4:00 p.m.). Mrs Vampire joined them at 4:06 p.m.</div>
+        </div>
+
+        <div class="clue-item">
+          <div class="clue-num">17</div>
+          <div class="clue-text">At <strong>4:10 p.m.</strong>, Witch heard the front door open again. It was <strong>Mr Vampire</strong> coming back inside! He went to the kitchen to make tea.</div>
+        </div>
+
+        <div class="think-box">
+          <div class="think-header">
+            <i class="fa-solid fa-brain"></i> Let's Stop & Think: The Alibi Check
+          </div>
+          <div class="think-question">
+            Where were Frankenstein and Ghost between 4:00 p.m. and 4:05 p.m.?
+          </div>
+          <div class="option-list">
+            <button class="option-btn" onclick="checkAnswer(this, true, 5, 'Correct! Frankenstein and Ghost were together watching TV, so they have an alibi!')">
+              <span>A) Watching TV together in the living room/lounge. They have a solid alibi!</span>
+            </button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 5, 'Check Clue 16 again!')">
+              <span>B) They were outside in the garden with Skeleton.</span>
+            </button>
+          </div>
+          <div class="feedback-msg" id="feedback5"></div>
+        </div>
+
+        <div style="margin-top:24px; display:flex; justify-content:space-between;">
+          <button class="btn" onclick="nextStage(4)"><i class="fa-solid fa-arrow-left"></i> Back</button>
+          <button class="btn btn-primary pulse" onclick="nextStage(6)">Make Final Accusation <i class="fa-solid fa-gavel"></i></button>
+        </div>
+      </div>
+
+      <!-- STAGE 6: ACCUSATION & WORKSHEET SUBMISSION -->
+      <div class="card stage-card hidden" id="stage6">
+        <div class="card-header">
+          <div class="card-title">
+            <i class="fa-solid fa-gavel" style="color:var(--accent-orange);"></i>
+            Solve the Mystery: Final Accusation
+          </div>
+          <span class="badge">Answer Sheet</span>
+        </div>
+
+        <p style="margin-bottom:20px; font-size:15px; color:var(--text-muted);">
+          Review your clues and detective notebook. Complete the official report below to identify the killer!
+        </p>
+
+        <form class="accusation-form" onsubmit="submitAccusation(event)">
+          <div class="form-group">
+            <label class="form-label" for="studentName"><i class="fa-solid fa-user-pen"></i> Your Name & Class:</label>
+            <input type="text" id="studentName" class="form-input" placeholder="e.g. Alex Chan (Class 5B)" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="suspectSelect"><i class="fa-solid fa-user-ninja"></i> 1. I think the killer is:</label>
+            <select id="suspectSelect" class="form-select" required>
+              <option value="">-- Choose Suspect --</option>
+              <option value="Frankenstein">Frankenstein</option>
+              <option value="Ghost">Ghost</option>
+              <option value="Mr Vampire">Mr Vampire</option>
+              <option value="Mrs Vampire">Mrs Vampire (Wendy)</option>
+              <option value="Witch">Witch</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="weaponSelect"><i class="fa-solid fa-toolbox"></i> 2. He/she killed Skeleton with:</label>
+            <select id="weaponSelect" class="form-select" required>
+              <option value="">-- Choose Weapon --</option>
+              <option value="Heavy Pumpkin">Heavy Pumpkin</option>
+              <option value="Poisoned Candy">Poisoned Candy</option>
+              <option value="Smashed WhatsApp Phone">Smashed WhatsApp Phone</option>
+              <option value="Sharp Knife">Sharp Knife</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="motiveText"><i class="fa-solid fa-lightbulb"></i> 3. He/she killed him because:</label>
+            <textarea id="motiveText" class="form-textarea" placeholder="Explain the reason (e.g. He checked WhatsApp messages at 3:55 p.m. and discovered...)" required></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="padding:14px; font-size:16px; margin-top:10px;">
+            <i class="fa-solid fa-paper-plane"></i> Submit Detective Report
+          </button>
+        </form>
+      </div>
+
+      <!-- STAGE 7: REVEAL & RESULTS -->
+      <div class="card stage-card hidden" id="stage7">
+        <div id="resultBanner" class="result-banner"></div>
+
+        <div class="card-header">
+          <div class="card-title"><i class="fa-solid fa-scroll"></i> Mystery Full Breakdown</div>
+        </div>
+
+        <div style="font-size:15px; line-height:1.7; color:#e0d8ef; margin-bottom:20px;">
+          <p style="margin-bottom:12px;">
+            <strong>The Killer:</strong> <span style="color:var(--accent-orange); font-weight:700;">Mr Vampire</span>
+          </p>
+          <p style="margin-bottom:12px;">
+            <strong>The Weapon:</strong> <span style="color:var(--accent-orange); font-weight:700;">A Heavy Pumpkin</span>
+          </p>
+          <p style="margin-bottom:12px;">
+            <strong>The Full Story:</strong><br>
+            At 3:50 p.m., Mrs Vampire gave her phone to Mr Vampire. At 3:55 p.m., Mr Vampire read her WhatsApp messages and realized his wife <strong>Wendy (Mrs Vampire)</strong> was secretly in love with Skeleton!
+          </p>
+          <p style="margin-bottom:12px;">
+            At 4:00 p.m., Skeleton went to the living room while Mrs Vampire went to the garden. Mr Vampire followed Skeleton into the living room, grabbed the <strong>heavy pumpkin</strong> by the window, dropped his <strong>candy</strong>, left a <strong>black hair</strong> on the window frame, smashed Skeleton's phone, and killed him at 4:05 p.m.!
+          </p>
+          <p>
+            He then escaped through the garden and came back through the front door at 4:10 p.m. pretending to make tea!
+          </p>
+        </div>
+
+        <!-- Printable / Copyable Worksheet Summary for English Teacher -->
+        <div style="margin-top:24px;">
+          <h4 style="font-family:var(--font-heading); color:var(--accent-orange); margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
+            <span><i class="fa-solid fa-file-signature"></i> Official Student Submission Slip</span>
+            <button class="btn" onclick="copyWorksheet()"><i class="fa-solid fa-copy"></i> Copy Text</button>
+          </h4>
+
+          <div class="worksheet-preview" id="worksheetSlip">
+            <h3>ENGLISH CLUB HALLOWEEN MYSTERY WORKSHEET</h3>
+            <div class="worksheet-line"><strong>Student Name / Class:</strong> <span id="wsName" class="blank-fill"></span></div>
+            <div class="worksheet-line">1. I think the killer is <span id="wsKiller" class="blank-fill"></span>.</div>
+            <div class="worksheet-line">2. He/she killed Skeleton with <span id="wsWeapon" class="blank-fill"></span>.</div>
+            <div class="worksheet-line">3. He/she killed him because <span id="wsMotive" class="blank-fill"></span>.</div>
+            <div style="margin-top:20px; font-size:12px; color:#555; text-align:right;">
+              Submitted on: <span id="wsDate"></span> | Result Score: <span id="wsScore"></span>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:24px; text-align:center;">
+          <button class="btn btn-primary" onclick="resetGame()"><i class="fa-solid fa-rotate-left"></i> Play Again</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right Column: Interactive Detective Notebook & Suspect Matrix -->
+    <div class="sidebar">
+      <div class="card notebook-card">
+        <div class="card-header" style="margin-bottom:12px; padding-bottom:8px;">
+          <div class="card-title" style="font-size:16px;">
+            <i class="fa-solid fa-book-skull" style="color:var(--accent-purple);"></i>
+            Detective Notebook
+          </div>
+          <span style="font-size:11px; color:var(--text-muted);">Tap status to toggle</span>
+        </div>
+
+        <div style="margin-bottom:14px; font-size:12px; color:var(--text-muted); line-height:1.4;">
+          <i class="fa-solid fa-info-circle"></i> Click a suspect's badge to toggle between <strong>Unknown</strong>, <strong>Suspect ⚠️</strong>, or <strong>Eliminated ❌</strong>.
+        </div>
+
+        <div class="suspect-grid">
+          <!-- Frankenstein -->
+          <div class="suspect-card">
+            <div class="suspect-info">
+              <div class="suspect-icon"><i class="fa-solid fa-bolt" style="color:#00e676;"></i></div>
+              <div>
+                <div class="suspect-name">Frankenstein</div>
+                <div class="suspect-role">Black hair • Eats candy</div>
+              </div>
+            </div>
+            <span class="suspect-tag unknown" onclick="toggleSuspect(this)">Unknown</span>
+          </div>
+
+          <!-- Ghost -->
+          <div class="suspect-card">
+            <div class="suspect-info">
+              <div class="suspect-icon"><i class="fa-solid fa-ghost" style="color:#e0e0e0;"></i></div>
+              <div>
+                <div class="suspect-name">Ghost</div>
+                <div class="suspect-role">Black hair • Eats candy</div>
+              </div>
+            </div>
+            <span class="suspect-tag unknown" onclick="toggleSuspect(this)">Unknown</span>
+          </div>
+
+          <!-- Witch -->
+          <div class="suspect-card">
+            <div class="suspect-info">
+              <div class="suspect-icon"><i class="fa-solid fa-hat-wizard" style="color:#9d4edd;"></i></div>
+              <div>
+                <div class="suspect-name">Witch</div>
+                <div class="suspect-role">No black hair • No candy</div>
+              </div>
+            </div>
+            <span class="suspect-tag unknown" onclick="toggleSuspect(this)">Unknown</span>
+          </div>
+
+          <!-- Mrs Vampire -->
+          <div class="suspect-card">
+            <div class="suspect-info">
+              <div class="suspect-icon"><i class="fa-solid fa-person-dress" style="color:#ff3366;"></i></div>
+              <div>
+                <div class="suspect-name">Mrs Vampire</div>
+                <div class="suspect-role">Wendy • Black hair</div>
+              </div>
+            </div>
+            <span class="suspect-tag unknown" onclick="toggleSuspect(this)">Unknown</span>
+          </div>
+
+          <!-- Mr Vampire -->
+          <div class="suspect-card">
+            <div class="suspect-info">
+              <div class="suspect-icon"><i class="fa-solid fa-user-tie" style="color:#ff7700;"></i></div>
+              <div>
+                <div class="suspect-name">Mr Vampire</div>
+                <div class="suspect-role">Black hair • Checked phone</div>
+              </div>
+            </div>
+            <span class="suspect-tag unknown" onclick="toggleSuspect(this)">Unknown</span>
+          </div>
+        </div>
+
+        <!-- Quick Clue Summary Box -->
+        <div style="margin-top:20px; border-top:1px solid var(--card-border); padding-top:14px;">
+          <div style="font-size:12px; font-weight:700; color:var(--accent-orange); margin-bottom:8px; text-transform:uppercase;">
+            Key Evidence Tracker
+          </div>
+          <ul style="font-size:12px; color:var(--text-muted); list-style:none; display:flex; flex-direction:column; gap:6px;">
+            <li><i class="fa-solid fa-check" style="color:var(--accent-orange);"></i> Time of Death: <strong>4:05 p.m.</strong></li>
+            <li><i class="fa-solid fa-check" style="color:var(--accent-orange);"></i> Killer's Hair: <strong>Black Hair</strong></li>
+            <li><i class="fa-solid fa-check" style="color:var(--accent-orange);"></i> Candy: <strong>Dropped by Killer</strong></li>
+            <li><i class="fa-solid fa-check" style="color:var(--accent-orange);"></i> Weapon: <strong>Heavy Pumpkin</strong></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    English Club Halloween Murder Mystery • Based on the "Who Killed Skeleton?" Case
+  </footer>
+
+  <!-- Web Audio Synthesizer & Logic Scripts -->
+  <script>
+    // State management
+    let currentStage = 0;
+    const totalStages = 6; // 0 to 6
+    let soundEnabled = true;
+    let unlockedClues = 0;
+
+    // Web Audio API Synthesizer (No external sound files required)
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    let audioCtx = null;
+
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new AudioContext();
+      }
+    }
+
+    function playSound(type) {
+      if (!soundEnabled) return;
+      initAudio();
+      if (!audioCtx) return;
+
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      const now = audioCtx.currentTime;
+
+      if (type === 'click') {
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(400, now);
+        osc.frequency.exponentialRampToValueAtTime(800, now + 0.08);
+        gain.gain.setValueAtTime(0.1, now);
+        gain.gain.linearRampToValueAtTime(0, now + 0.08);
+        osc.start(now);
+        osc.stop(now + 0.08);
+      } else if (type === 'correct') {
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(523.25, now); // C5
+        osc.frequency.setValueAtTime(659.25, now + 0.1); // E5
+        osc.frequency.setValueAtTime(783.99, now + 0.2); // G5
+        gain.gain.setValueAtTime(0.15, now);
+        gain.gain.linearRampToValueAtTime(0, now + 0.35);
+        osc.start(now);
+        osc.stop(now + 0.35);
+      } else if (type === 'wrong') {
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(220, now); // A3
+        osc.frequency.setValueAtTime(180, now + 0.15);
+        gain.gain.setValueAtTime(0.15, now);
+        gain.gain.linearRampToValueAtTime(0, now + 0.3);
+        osc.start(now);
+        osc.stop(now + 0.3);
+      } else if (type === 'spooky') {
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(150, now);
+        osc.frequency.exponentialRampToValueAtTime(80, now + 0.6);
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.linearRampToValueAtTime(0, now + 0.6);
+        osc.start(now);
+        osc.stop(now + 0.6);
+      }
+    }
+
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      document.getElementById('soundLabel').innerText = soundEnabled ? 'Sound ON' : 'Sound OFF';
+      const icon = document.querySelector('#soundBtn i');
+      if (soundEnabled) {
+        icon.className = 'fa-solid fa-volume-high';
+        playSound('click');
+      } else {
+        icon.className = 'fa-solid fa-volume-xmark';
+      }
+    }
+
+    // Navigation and Stage switching
+    function nextStage(stageNum) {
+      playSound('click');
+
+      // Hide all stage cards
+      document.querySelectorAll('.stage-card').forEach(card => card.classList.add('hidden'));
+
+      // Show targeted stage
+      const target = document.getElementById(`stage${stageNum}`);
+      if (target) {
+        target.classList.remove('hidden');
+        currentStage = stageNum;
+        updateProgress();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    function updateProgress() {
+      // Calculate clue count based on stage
+      const clueCounts = [0, 3, 6, 8, 12, 17, 17, 17];
+      unlockedClues = clueCounts[currentStage] || 0;
+
+      const progressPct = Math.min(100, Math.round((currentStage / totalStages) * 100));
+      document.getElementById('progressFill').style.width = `${progressPct}%`;
+
+      const stageNames = [
+        "Stage 0: Case Briefing",
+        "Stage 1: Clues 1 - 3",
+        "Stage 2: Clues 4 - 6",
+        "Stage 3: Clues 7 - 8",
+        "Stage 4: Clues 9 - 12",
+        "Stage 5: Clues 13 - 17",
+        "Stage 6: Final Accusation",
+        "Stage 7: Mystery Solved"
+      ];
+
+      document.getElementById('stepLabel').innerText = stageNames[currentStage] || '';
+      document.getElementById('clueCounter').innerText = `Clues Unlocked: ${unlockedClues} / 17`;
+    }
+
+    // Interactive Question Checker
+    function checkAnswer(btn, isCorrect, feedbackIdx, msg) {
+      const parent = btn.parentElement;
+      const buttons = parent.querySelectorAll('.option-btn');
+      
+      buttons.forEach(b => {
+        b.classList.remove('selected', 'correct', 'wrong');
+      });
+
+      const feedbackEl = document.getElementById(`feedback${feedbackIdx}`);
+
+      if (isCorrect) {
+        btn.classList.add('correct');
+        feedbackEl.className = 'feedback-msg show success';
+        feedbackEl.innerHTML = `<i class="fa-solid fa-circle-check"></i> ${msg}`;
+        playSound('correct');
+      } else {
+        btn.classList.add('wrong');
+        feedbackEl.className = 'feedback-msg show error';
+        feedbackEl.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> ${msg}`;
+        playSound('wrong');
+      }
+    }
+
+    // Suspect Tag Toggle
+    function toggleSuspect(tagEl) {
+      playSound('click');
+      if (tagEl.classList.contains('unknown')) {
+        tagEl.className = 'suspect-tag suspect';
+        tagEl.innerText = 'Suspect ⚠️';
+      } else if (tagEl.classList.contains('suspect')) {
+        tagEl.className = 'suspect-tag eliminated';
+        tagEl.innerText = 'Eliminated ❌';
+      } else {
+        tagEl.className = 'suspect-tag unknown';
+        tagEl.innerText = 'Unknown';
+      }
+    }
+
+    // Submit Accusation & Evaluation
+    function submitAccusation(e) {
+      e.preventDefault();
+      playSound('spooky');
+
+      const name = document.getElementById('studentName').value;
+      const killer = document.getElementById('suspectSelect').value;
+      const weapon = document.getElementById('weaponSelect').value;
+      const motive = document.getElementById('motiveText').value;
+
+      const isKillerCorrect = (killer === 'Mr Vampire');
+      const isWeaponCorrect = (weapon === 'Heavy Pumpkin');
+
+      const banner = document.getElementById('resultBanner');
+
+      if (isKillerCorrect && isWeaponCorrect) {
+        banner.className = 'result-banner success';
+        banner.innerHTML = `
+          <div class="result-title" style="color:var(--accent-green);">🎉 MYSTERY SOLVED! PERFECT DEDUCTION!</div>
+          <p style="font-size:16px; color:#fff;">Outstanding work, Detective <strong>${escapeHtml(name)}</strong>! You correctly unmasked <strong>Mr Vampire</strong> and found the <strong>Heavy Pumpkin</strong> weapon!</p>
+        `;
+      } else if (isKillerCorrect) {
+        banner.className = 'result-banner partial';
+        banner.innerHTML = `
+          <div class="result-title" style="color:var(--accent-orange);">🔍 ALMOST THERE!</div>
+          <p style="font-size:16px; color:#fff;">Great job <strong>${escapeHtml(name)}</strong>! You correctly identified <strong>Mr Vampire</strong> as the killer, though the weapon was the heavy pumpkin!</p>
+        `;
+      } else {
+        banner.className = 'result-banner partial';
+        banner.innerHTML = `
+          <div class="result-title" style="color:var(--accent-orange);">🕵️ NICE ATTEMPT!</div>
+          <p style="font-size:16px; color:#fff;">Good effort, <strong>${escapeHtml(name)}</strong>! Read the full solution breakdown below to see how all 17 clues connect!</p>
+        `;
+      }
+
+      // Fill in Worksheet summary
+      document.getElementById('wsName').innerText = name;
+      document.getElementById('wsKiller').innerText = killer;
+      document.getElementById('wsWeapon').innerText = weapon;
+      document.getElementById('wsMotive').innerText = motive;
+      document.getElementById('wsDate').innerText = new Date().toLocaleDateString();
+      document.getElementById('wsScore').innerText = isKillerCorrect ? (isWeaponCorrect ? '100% (3/3 Correct)' : '67% (Killer Correct)') : '33% Attempted';
+
+      nextStage(7);
+    }
+
+    function copyWorksheet() {
+      const name = document.getElementById('wsName').innerText;
+      const killer = document.getElementById('wsKiller').innerText;
+      const weapon = document.getElementById('wsWeapon').innerText;
+      const motive = document.getElementById('wsMotive').innerText;
+
+      const text = `ENGLISH CLUB HALLOWEEN MYSTERY WORKSHEET\n` +
+                   `Student: ${name}\n` +
+                   `1. Killer: ${killer}\n` +
+                   `2. Weapon: ${weapon}\n` +
+                   `3. Reason: ${motive}`;
+
+      navigator.clipboard.writeText(text).then(() => {
+        alert('Worksheet answer summary copied to clipboard! You can now paste and send it to your English teacher.');
+      });
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+    function resetGame() {
+      if (confirm('Are you sure you want to restart the mystery investigation?')) {
+        document.querySelectorAll('.suspect-tag').forEach(tag => {
+          tag.className = 'suspect-tag unknown';
+          tag.innerText = 'Unknown';
+        });
+        document.querySelectorAll('.option-btn').forEach(btn => {
+          btn.classList.remove('selected', 'correct', 'wrong');
+        });
+        document.querySelectorAll('.feedback-msg').forEach(msg => {
+          msg.classList.remove('show');
+        });
+        nextStage(0);
+      }
+    }
+
+    // Initialize progress on load
+    updateProgress();
+  </script>
+</body>
+</html>
+```eof
